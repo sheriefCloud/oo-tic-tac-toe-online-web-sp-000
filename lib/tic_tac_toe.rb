@@ -102,7 +102,7 @@ class TicTacToe
   def turn
     valid = false
     puts "Please enter 1-9:"
-    user_input - gets.strip
+    user_input = gets.strip
     valid = valid_move?(input_to_index(user_input))
     if valid = true
       move(input_to_index(user_input), current_player)
