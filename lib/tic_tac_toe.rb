@@ -24,7 +24,7 @@ class TicTacToe
   end
 
   def input_to_index(input)
-    @board = input.to_i - 1
+    input.to_i - 1
   end
 
   def move(index, players_token = "X")
@@ -42,6 +42,7 @@ class TicTacToe
   def turn_count
     counter=0
     @board.each do |cell|
+      #binding.pry
       if cell == "X" || cell == "O"
       counter += 1
       end
@@ -100,28 +101,17 @@ class TicTacToe
   end
 
   def turn
-    valid = false
+    #valid = false
     puts "Please enter 1-9:"
     user_input = gets.strip
-    valid = valid_move?(input_to_index(user_input))
-    if valid = true
-      move(input_to_index(user_input), current_player)
-      display_board
+    index = input_to_index(user_input)
+
+    if valid_move?(index)
+      move(index, current_player)
     else
       turn
     end
-
-    # until valid == true
-    #   user_input = gets.strip
-    #   index = input_to_index(user_input)
-    #   valid = valid_move?(index)
-    #   binding.pry
-    # end
-    # move(index, current_player)
-    # display_board
-
-
-
+    display_board
   end
 
   def winner
