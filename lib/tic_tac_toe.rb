@@ -1,6 +1,5 @@
 require 'pry'
 
-
 class TicTacToe
   WIN_COMBINATIONS=[
     [0,1,2],
@@ -36,20 +35,100 @@ class TicTacToe
     @board[position] != " " && @board[position] != ""
   end
 
-  def valid_move?(position)
-    position.between?(0,8) && !position_taken?(position)
+  def valid_move?(index)
+    index.between?(0,8) && !position_taken?(index)
   end
 
-  def turn
-    puts "Please enter 1-9:"
-    input = gets.strip
-    index = input_to_index(input)
-    if valid_move?(index)
-      move(index)
-      display_board(@board)
+  def turn_count
+    counter=0
+    @board.each do |cell|
+      if cell == "X" || cell == "O"
+      counter += 1
+      end
+    end
+    return counter
+  end
+
+  def current_player
+    turn_count % 2 == 0 ? "X" : "O"
+  end
+
+  def full?
+    counter=0
+    board_count = 0
+    while counter < 9
+        if position_taken?(counter) == true
+            board_count += 1
+        end
+        counter += 1
+    end
+    if board_count < @board.length
+        return false
     else
-      turn#(@board)
+        return true
     end
   end
 
-end
+  def won?
+    WIN_COMBINATIONS.detect do |combo|
+      @board[combo[0]] == @board[combo[1]] &&
+      @board[combo[1]] == @board[combo[2]] &&
+      position_taken?(combo[0])
+    end
+  end
+
+  def draw?
+    if !won? && full?
+      true
+    elsif (!won? && !full?) || won?
+      false
+    end
+  end
+
+  def over?
+    if  won? && !full?
+      return true
+    elsif draw?
+      return true
+    elsif won? && full?
+      return true
+    elsif !won? && !full?
+      return false
+    else
+      return false
+    end
+  end
+
+  def turn
+    valid = false
+    puts "Please enter 1-9:"
+    user_input - gets.strip
+    valid = valid_move?(input_to_index(user_input))
+    if valid = true
+      move(input_to_index(user_input), current_player)
+      display_board
+    else
+      turn
+    end
+
+    # until valid == true
+    #   user_input = gets.strip
+    #   index = input_to_index(user_input)
+    #   valid = valid_move?(index)
+    #   binding.pry
+    # end
+    # move(index, current_player)
+    # display_board
+
+
+
+  end
+
+  def winner
+    if winning_array = won?
+      player = @board[winning_array[0]]
+      return player
+    end
+  end
+
+end # class end
