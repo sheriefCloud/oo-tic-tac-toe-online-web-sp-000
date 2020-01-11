@@ -122,11 +122,11 @@ class TicTacToe
   end
 
   def play
-<<<<<<< HEAD
+
     until over? == true do
-=======
+
     until over? == false do
->>>>>>> 64374ea16a357446906e41e5b6dd5157792fc008
+
       turn
     end
 
